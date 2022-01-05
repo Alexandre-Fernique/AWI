@@ -1,0 +1,20 @@
+.pdfTable{
+  max-width:595px;
+  font-size: 10px;
+}
+.right-table{
+  margin-left: 10px;
+
+}
+.left-table{
+  margin-right: 10px;
+}
+.tbodyPDF{
+  border-top: 2px solid currentColor;
+}
+.allergenClass{
+  font-style:italic ;
+}
+.fit-content{
+  height: fit-content;
+}

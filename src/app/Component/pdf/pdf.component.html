@@ -1,0 +1,125 @@
+<div>
+  <div class="pdfTable"  *ngIf="recipe!=undefined">
+    <div class="container">
+      <h1>
+        {{recipe.name}}
+      </h1>
+      <h3>Auteur: {{recipe.author}} </h3>
+      <div class="row">
+        <div class="col">
+          <h6>Durée total: {{recipe.getTime()}} </h6>
+        </div>
+        <div class="col">
+          <h6>Nombre de couvert : {{this.recipe.nb_couvert}} </h6>
+        </div>
+      </div>
+    </div>
+    <div class="container row mb-3" >
+      <table class=" col left-table">
+        <thead>
+        <th>DENREES</th>
+        <th>UNITES</th>
+        <th>QUANTITES</th>
+        </thead>
+        <tbody class="tbodyPDF">
+        <ng-container *ngFor=" let step of recipe.getStep()">
+          <tr>
+            <th>{{step.name}}</th>
+          </tr>
+          <ng-container *ngFor="let ingredient of step.ingredient|keyvalue">
+            <tr>
+              <td [ngClass]="ingredient.key.allergen==undefined?'':'allergenClass'">{{ingredient.key.name}}{{ingredient.key.allergen==undefined?"":"*"}}</td>
+              <td>{{ingredient.key.unit}}</td>
+              <td>{{convertNumber(ingredient.value*this.recipe.nb_couvert,3)}}</td>
+            </tr>
+          </ng-container>
+          <tr></tr>
+        </ng-container>
+        </tbody>
+      </table >
+
+      <table class=" col right-table">
+        <thead>
+        <th>Phase</th>
+        <th>Techniques de réalisation</th>
+        <th>Durée</th>
+        </thead>
+        <tbody class="tbodyPDF">
+        <ng-container *ngFor=" let step of recipe.getStep()">
+          <tr>
+            <th>{{recipe.getStep().indexOf(step)+1}}</th>
+            <th>{{step.name}}</th>
+            <th>{{step.getTime()}}</th>
+          </tr>
+
+          <tr>
+            <td></td>
+            <td>{{step.description}}</td>
+          </tr>
+        </ng-container>
+        </tbody>
+      </table>
+    </div>
+    <p class="container allergenClass">* Présence d'allergène</p>
+    <div class="container fit-content" *ngIf="impresionCout">
+      <app-table  [ingredientMap]="this.recipe.getIngredient()"></app-table>
+      <table class="table" >
+        <thead>
+        <th>Catégorie</th>
+        <th>Résultat</th>
+        </thead>
+        <tbody>
+        <tr *ngIf="this.recipe.cout_assaisonnement!=0">
+          <td >Cout des assisonements ({{this.recipe.cout_assaisonnement}}{{this.recipe.coutAssaisonnementIsPercent?"%":"€"}})</td>
+          <td>{{this.recipe.convertNumber(this.recipe.coutAssaisonnementIsPercent?this.recipe.getCoutIngredient()*this.recipe.cout_assaisonnement/100:this.recipe.cout_assaisonnement,2)}}€</td>
+        </tr>
+        <tr *ngIf="this.recipe.getCoutMatiere()!=0">
+          <td>Cout matières</td>
+          <td>{{this.recipe.getCoutMatiere()}}€</td>
+        </tr>
+        <tr *ngIf="costCharge">
+          <td>Cout du personnel</td>
+          <td>{{this.recipe.getCoutPersonnel(this.costCharge,this.cout_personnel)}}€
+          </td>
+        </tr>
+        <tr *ngIf="costCharge">
+          <td>Cout des fluides</td>
+          <td>{{this.recipe.getCoutFluide(this.costCharge,this.cout_fluide)}}€
+          </td>
+        </tr>
+        <tr *ngIf="costCharge">
+          <td>Cout des Charges</td>
+          <td>{{this.recipe.getCoutPersonnel(this.costCharge,this.cout_personnel)+this.recipe.getCoutFluide(this.costCharge,this.cout_fluide)}}€
+          </td>
+        </tr>
+        <tr>
+          <td>Cout de production</td>
+          <td>{{(this.recipe.getCoutMatiere()+this.recipe.getCoutPersonnel(this.costCharge,this.cout_personnel)+this.recipe.getCoutFluide(this.costCharge,this.cout_fluide)).toFixed(2)}}€
+          </td>
+        </tr>
+        <tr>
+          <td>Prix de vente</td>
+          <td>{{this.recipe.getVente(this.marge,this.costCharge,this.cout_fluide,this.cout_personnel)}}€
+          </td>
+        </tr>
+        <tr>
+          <td>Prix Par portion</td>
+          <td>{{(this.recipe.getVente(this.marge,this.costCharge,this.cout_fluide,this.cout_personnel)/this.recipe.nb_couvert).toFixed(2)}}€
+          </td>
+        </tr>
+        <tr>
+          <td>Bénéfice</td>
+          <td>{{this.recipe.getBenefice(this.marge,this.costCharge,this.cout_fluide,this.cout_personnel).toFixed(2)}}€
+          </td>
+        </tr>
+        <tr>
+          <td>Bénéfice Par portion</td>
+          <td>{{(this.recipe.getBenefice(this.marge,this.costCharge,this.cout_fluide,this.cout_personnel)/this.recipe.nb_couvert).toFixed(2)}}€
+          </td>
+        </tr>
+        </tbody>
+      </table>
+  </div>
+
+  </div>
+</div>
