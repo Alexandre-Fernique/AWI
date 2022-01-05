@@ -70,68 +70,18 @@
     </div>
   </div>
   <mat-slide-toggle [formControl]="chargeCost">Calculer Coût Charge</mat-slide-toggle>
-  <table class="table">
-    <thead>
-    <th>Catégorie</th>
-    <th>Résultat</th>
-    </thead>
-    <tbody>
-    <tr>
-      <td>Cout des ingrédients</td>
-      <td>{{this.recipe.getCoutIngredient(nbCouvert.value)}}€</td>
-    </tr>
-    <tr>
-      <td>Cout des assisonements</td>
-      <td>{{this.convertNumber(this.typeAssaisonement?this.recipe.getCoutIngredient(nbCouvert.value)*this.coutAssaisnment.value/100:this.coutAssaisnment.value,2)}}€</td>
-    </tr>
-    <tr>
-      <td>Cout matières</td>
-      <td>{{getCoutMatiere()}}€</td>
-    </tr>
-    <tr>
-      <td>Cout du personnel</td>
-      <td>{{getCoutPersonnel().toFixed(2)}}€
-      </td>
-    </tr>
-    <tr>
-      <td>Cout des fluides</td>
-      <td>{{getCoutFluide().toFixed(2)}}€
-      </td>
-    </tr>
-    <tr>
-      <td>Cout des Charges</td>
-      <td>{{getCoutFluide()+getCoutPersonnel()}}€
-      </td>
-    </tr>
-    <tr>
-      <td>Cout de production</td>
-      <td>{{(getCoutMatiere()+getCoutFluide()+getCoutPersonnel()).toFixed(2)}}€
-      </td>
-    </tr>
-    <tr>
-    <td>Prix de vente</td>
-    <td>{{getVente().toFixed(2)}}€
-    </td>
-    </tr>
-    <tr>
-      <td>Prix Par portion</td>
-      <td>{{(getVente()/nbCouvert.value).toFixed(2)}}€
-      </td>
-    </tr>
-    <tr>
-      <td>Bénéfice</td>
-      <td>{{getBenefice().toFixed(2)}}€
-      </td>
-    </tr>
-    <tr>
-      <td>Bénéfice Par portion</td>
-      <td>{{(getBenefice()/nbCouvert.value).toFixed(2)}}€
-      </td>
-    </tr>
-    </tbody>
-  </table>
-  <button class="btn btn-primary">Imprimé la recette</button>
+
+  <button class="btn btn-primary" (click)="download()">Imprimé la recette</button>
   <mat-slide-toggle [formControl]="printCost">{{printCost.value?"avec les coûts":"sans les coûts"}}</mat-slide-toggle>
-  <button class="btn btn-primary">Enregistré la vente</button>
+  <button class="btn btn-primary" (click)="enregistrer()">Enregistré la vente</button>
 </div>
 <app-modal-modify-constant (newData)="changeCost($event)" id="constant" class="modal fade" role="dialog" tabindex="-1"></app-modal-modify-constant>
+
+
+<div style="opacity: 0">
+  <div id="pdfTable" >
+    <app-pdf  [impresionCout]="printCost.value" [costCharge]="chargeCost.value" [cout_fluide]="cout_fluide" [cout_personnel]="cout_personnel" [marge]="marge.value" [recipe]="this.recipe"></app-pdf>
+  </div>
+</div>
+
+

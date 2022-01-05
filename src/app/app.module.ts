@@ -32,6 +32,8 @@ import {MatSliderModule} from "@angular/material/slider";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import { ConfirmDialogComponent } from './Component/confirm-dialog/confirm-dialog.component';
 import {MatDialogModule} from "@angular/material/dialog";
+import { PdfComponent } from './Component/pdf/pdf.component';
+
 
 const routes: Routes = [
   {path: "", component: AppComponent},
@@ -41,6 +43,7 @@ const routes: Routes = [
   {path: "allergen", component: AllergenComponent},
   {path: "lire/:id", component: ReadRecipeComponent},
   {path: "maj/:id", component: CreerRecetteComponent},
+  {path: "test",component:PdfComponent},
   {path: '**', component: ERR404Component}
 
 ]
@@ -64,6 +67,7 @@ const routes: Routes = [
     ModalModifyConstantComponent,
     ReadRecipeComponent,
     ConfirmDialogComponent,
+    PdfComponent,
   ],
     imports: [
         BrowserModule,

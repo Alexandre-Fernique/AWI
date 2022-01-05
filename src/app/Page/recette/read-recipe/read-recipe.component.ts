@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewContainerRef} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {Recipe} from "../../../class/recipe";
 import {RecipeService} from "../../../Service/recipe.service";
@@ -7,6 +7,7 @@ import {ConstantCostService} from "../../../Service/constant-cost.service";
 import {MatDialog} from "@angular/material/dialog";
 import {ConfirmDialogComponent} from "../../../Component/confirm-dialog/confirm-dialog.component";
 import {AlertComponent} from "../../../Component/alert/alert.component";
+import { jsPDF } from "jspdf"
 
 @Component({
   selector: 'app-read-recipe',
@@ -38,6 +39,24 @@ export class ReadRecipeComponent implements OnInit {
 
       }
     })
+    this.typeAssaisonement.valueChanges.subscribe({
+      next:(e)=>{
+        if(this.recipe && typeof e=="boolean")
+          this.recipe.coutAssaisonnementIsPercent=e;
+      }
+    })
+    this.coutAssaisnment.valueChanges.subscribe({
+      next:(e)=>{
+        if(this.recipe && typeof e=="number")
+          this.recipe.cout_assaisonnement=e;
+      }
+    })
+    this.nbCouvert.valueChanges.subscribe({
+      next:(e)=>{
+        if(this.recipe && typeof e=="number")
+          this.recipe.nb_couvert=e;
+      }
+    })
   }
 
   ngOnInit(): void {
@@ -53,43 +72,16 @@ export class ReadRecipeComponent implements OnInit {
       })
     }
   }
+  enregistrer(){
+    if(this.recipe?.stockAvailableForRecipe()){
 
-  getCoutMatiere(item:number=this.nbCouvert.value):number{
-    if (this.recipe!=undefined){
-      if(this.typeAssaisonement.value) {
-        return this.convertNumber(this.recipe.getCoutIngredient(item) * (this.coutAssaisnment.value + 100) / 100,2)
-      }
-      else {
-        return this.convertNumber(this.recipe.getCoutIngredient(item) + this.coutAssaisnment.value,2)
-      }
-    }else {
-      return 0;
+    }else{
+      AlertComponent.alert("Stock insuffisant","danger",this.view)
     }
-  }
-  convertNumber(item:number,decimal:number){
-    return Number(item.toFixed(decimal))
+
   }
 
-  getCoutPersonnel(){
-    if(this.recipe!=undefined && this.chargeCost.value){
-      return this.convertNumber(this.recipe.getTotalDuration()/60*this.cout_personnel,2)
-    }else{
-      return 0
-    }
-  }
-  getCoutFluide(){
-    if(this.recipe!=undefined && this.chargeCost.value){
-      return this.convertNumber((this.recipe.getTotalDuration()/60*this.cout_fluide),2)
-    }else{
-      return 0
-    }
-  }
-  getVente(){
-    return this.convertNumber((this.getCoutMatiere()+this.getCoutFluide()+this.getCoutPersonnel())*this.marge.value,2)
-  }
-  getBenefice(){
-    return this.getVente()/1.1 -(this.getCoutMatiere()+this.getCoutFluide()+this.getCoutPersonnel())
-  }
+  /*
   getSeuil(){
     if(this.marge.value>1 && this.chargeCost.value){
       return this.getCoutMatiere(1)/(this.getCoutFluide()+this.getCoutPersonnel())
@@ -97,7 +89,28 @@ export class ReadRecipeComponent implements OnInit {
       return "Impossible à calculer"
     }
 
-  }
+  }*/
+  async download(){
+
+      var pdf = new jsPDF('p', 'pt', "a4");
+
+
+      pdf.html(document.getElementById("pdfTable")!,{width:595,autoPaging:'text'}).then((doc) => {
+        let taille=document.getElementById("pdfTable")
+        if(taille!=null){
+          let nb_page=Number.parseInt((taille.clientHeight/842).toString())+1
+          while(pdf.getNumberOfPages()>nb_page){
+            pdf.deletePage(nb_page+1);
+          }
+        }
+
+
+        pdf.save("test.pdf")
+
+      })
+
+    }
+
   delete(){
     let dialog=this.dialogRef.open(ConfirmDialogComponent,{
       width:'25%',

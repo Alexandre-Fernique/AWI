@@ -7,3 +7,19 @@ app-table{
 .btn-outline-danger:hover svg{
   fill: white;
  }
+
+#pdfTable{
+  max-width:595px;
+  font-size: 10px;
+}
+.right-table{
+  padding-left: 10px;
+
+}
+.left-table{
+ padding-right: 10px;
+}
+.tbodyPDF{
+  border-top: 2px solid currentColor;
+}
+

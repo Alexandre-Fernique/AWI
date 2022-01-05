@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {environment} from "../../environments/environment";
 
 
 @Injectable({
@@ -21,7 +22,7 @@ export class ConstantCostService {
       ISPERCENT:type,
     }
 
-    return this.http.put("http://localhost:8080/recipe/setCost", data, this.httpOptions);
+    return this.http.put(environment.api+"/recipe/setCost", data, this.httpOptions);
 
   }
   getCost(){
@@ -30,6 +31,6 @@ export class ConstantCostService {
       COUT_PERSONNEL: number,
       COUT_ASSAISONNEMENT: number,
       ISPERCENT:boolean,
-    }>("http://localhost:8080/recipe/getCost", {headers: new HttpHeaders({ 'Content-Type': 'application/json' }),observe: 'body', responseType: 'json'})
+    }>(environment.api+"/recipe/getCost", {headers: new HttpHeaders({ 'Content-Type': 'application/json' }),observe: 'body', responseType: 'json'})
   }
 }

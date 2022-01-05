@@ -41,7 +41,7 @@ import {Etiquette} from "../../../class/etiquette";
 })
 export class CreerRecetteComponent implements OnInit{
   ingredient:Array<Ingredient>
-  listeIngredient:Array<number>=new Array<number>()
+  listeStep:Array<number>=new Array<number>()
   stepList:Array<Step>
   recipeList:Array<Etiquette>
   RCategory:Array<Category>
@@ -87,11 +87,11 @@ export class CreerRecetteComponent implements OnInit{
         this.form.get("author")?.setValue(value.author)
         value.step.forEach((step, index) =>{
           if(step instanceof Step){
-            this.listeIngredient.push(this.cpt)
+            this.listeStep.push(this.cpt)
             this.form.addControl(this.cpt.toString() + "ID", new FormControl('S'+step.id,Validators.required));
             this.cpt++;
           }else if(step instanceof Recipe){
-            this.listeIngredient.push(this.cpt)
+            this.listeStep.push(this.cpt)
             this.form.addControl(this.cpt.toString() + "ID", new FormControl('R'+step.id,Validators.required));
             this.cpt++;
           }else {
@@ -109,21 +109,21 @@ export class CreerRecetteComponent implements OnInit{
   }
 
   add(){
-    this.listeIngredient.push(this.cpt)
+    this.listeStep.push(this.cpt)
     this.form.addControl(this.cpt.toString() + "ID", new FormControl("",Validators.required));
     this.cpt++;
   }
   delete(item:number){
-    this.listeIngredient.splice(this.listeIngredient.indexOf(item),1);
+    this.listeStep.splice(this.listeStep.indexOf(item),1);
     this.form.removeControl(item.toString()+"ID")
 
   }
   drop(event: CdkDragDrop<number[]>) {
-    moveItemInArray(this.listeIngredient, event.previousIndex, event.currentIndex);
+    moveItemInArray(this.listeStep, event.previousIndex, event.currentIndex);
   }
   validate(){
     let step=new Map<number,string>();
-    this.listeIngredient.forEach(((value, index) => {
+    this.listeStep.forEach(((value, index) => {
       step.set(index,this.form.get(value+"ID")?.value)
 
     }))

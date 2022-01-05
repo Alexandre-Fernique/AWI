@@ -5,6 +5,7 @@ import {Ingredient} from "../class/ingredient";
 import {Category} from "../class/category";
 import {Observable} from "rxjs";
 import {Allergen} from "../class/allergen";
+import {environment} from "../../environments/environment";
 
 
 
@@ -20,7 +21,7 @@ export class IngredientService {
 
   }
   getAllIngredient(){
-    let allIngredient = this.http.get<any>("http://localhost:8080/ingredient/getIngredient", {headers: new HttpHeaders({ 'Content-Type': 'application/json' }),observe: 'body', responseType: 'json'})
+    let allIngredient = this.http.get<any>(environment.api+"/ingredient/getIngredient", {headers: new HttpHeaders({ 'Content-Type': 'application/json' }),observe: 'body', responseType: 'json'})
     let res: Array<Ingredient>=new Array<Ingredient>();
     allIngredient.subscribe({
       next: (data) => {
@@ -61,7 +62,7 @@ export class IngredientService {
       }
 
     }
-    return this.http.post("http://localhost:8080/ingredient/createIngredient",data,this.httpOptions);
+    return this.http.post(environment.api+"/ingredient/createIngredient",data,this.httpOptions);
   }
   updateIngredient(id:number,ingredient:Ingredient){
     let data:Object;
@@ -88,11 +89,11 @@ export class IngredientService {
       }
 
     }
-    return this.http.put("http://localhost:8080/ingredient/updateIngredient",data,this.httpOptions);
+    return this.http.put(environment.api+"/ingredient/updateIngredient",data,this.httpOptions);
 
   }
   getIcategory(){
-    let category = this.http.get<any>("http://localhost:8080/category/getCategory/I_Category", {headers: new HttpHeaders({ 'Content-Type': 'application/json' }),observe: 'body', responseType: 'json'})
+    let category = this.http.get<any>(environment.api+"/category/getCategory/I_Category", {headers: new HttpHeaders({ 'Content-Type': 'application/json' }),observe: 'body', responseType: 'json'})
     let res: Array<Category>=new Array<Category>();
     category.subscribe({
       next: (data) => {
@@ -106,7 +107,7 @@ export class IngredientService {
     return res;
   }
   getAllergen(){
-    let category = this.http.get<Array<{ID_INGREDIENT:number,ID_ALLERGEN:Array<number>}>>("http://localhost:8080/ingredient/getAllergen", {headers: new HttpHeaders({ 'Content-Type': 'application/json' }),observe: 'body', responseType: 'json'})
+    let category = this.http.get<Array<{ID_INGREDIENT:number,ID_ALLERGEN:Array<number>}>>(environment.api+"/ingredient/getAllergen", {headers: new HttpHeaders({ 'Content-Type': 'application/json' }),observe: 'body', responseType: 'json'})
     let res: Array<{ID_INGREDIENT:number,ID_ALLERGEN:Array<number>}>=new Array<{ID_INGREDIENT: number; ID_ALLERGEN: Array<number>}>();
     category.subscribe({
       next: (data) => {
@@ -120,14 +121,14 @@ export class IngredientService {
     let data={
       ID:id,
     }
-    return this.http.post("http://localhost:8080/ingredient/deleteIngredient",data,this.httpOptions)
+    return this.http.post(environment.api+"/ingredient/deleteIngredient",data,this.httpOptions)
   }
   createCategory(category:Category):Observable<any>{
     let data={
       NAME:category.name,
       URL:category.url,
     }
-    return this.http.post("http://localhost:8080/category/createCategory/I_Category",data,this.httpOptions);
+    return this.http.post(environment.api+"/category/createCategory/I_Category",data,this.httpOptions);
   }
   updateCategory(id:number,category:Category){
     let data={
@@ -135,13 +136,13 @@ export class IngredientService {
       NAME:category.name,
       URL:category.url,
     }
-    return this.http.put("http://localhost:8080/category/updateCategory/I_Category",data,this.httpOptions);
+    return this.http.put(environment.api+"/category/updateCategory/I_Category",data,this.httpOptions);
   }
   deleteCategory(id:number){
     let data={
       ID:id,
     }
-    return this.http.post("http://localhost:8080/category/deleteCategory/I_Category",data,this.httpOptions);
+    return this.http.post(environment.api+"/category/deleteCategory/I_Category",data,this.httpOptions);
   }
 
 }

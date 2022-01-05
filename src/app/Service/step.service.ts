@@ -4,6 +4,7 @@ import {Step} from "../class/step";
 import {Ingredient} from "../class/ingredient";
 import {Allergen} from "../class/allergen";
 import {Observable} from "rxjs";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -36,7 +37,7 @@ export class StepService {
       }
     })
     console.log(data);
-    return this.http.post("http://localhost:8080/step/createStep", data, this.httpOptions);
+    return this.http.post(environment.api+"/step/createStep", data, this.httpOptions);
 
   }
   updateStep(id:number,step:Step){
@@ -61,11 +62,11 @@ export class StepService {
 
       }
     })
-    return this.http.put("http://localhost:8080/step/updateStep", data, this.httpOptions);
+    return this.http.put(environment.api+"/step/updateStep", data, this.httpOptions);
 
   }
   getAllStep() {
-    let allStep = this.http.get<any>("http://localhost:8080/step/getStep", {headers: new HttpHeaders({ 'Content-Type': 'application/json' }),observe: 'body', responseType: 'json'})
+    let allStep = this.http.get<any>(environment.api+"/step/getStep", {headers: new HttpHeaders({ 'Content-Type': 'application/json' }),observe: 'body', responseType: 'json'})
     let res: Array<Step>=new Array<Step>();
 
     allStep.subscribe({
@@ -94,7 +95,7 @@ export class StepService {
       let data={
         ID:event.id,
       }
-      return this.http.post("http://localhost:8080/step/deleteStep",data,this.httpOptions)
+      return this.http.post(environment.api+"/step/deleteStep",data,this.httpOptions)
   }
 
 

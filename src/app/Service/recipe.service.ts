@@ -7,6 +7,7 @@ import {Ingredient} from "../class/ingredient";
 import {Allergen} from "../class/allergen";
 import {Etiquette} from "../class/etiquette";
 import {Observable} from "rxjs";
+import {environment} from "../../environments/environment";
 
 
 
@@ -23,7 +24,7 @@ export class RecipeService {
 
   }
   getRCategory(){
-    let category = this.http.get<any>("http://localhost:8080/category/getCategory/R_Category", {headers: new HttpHeaders({ 'Content-Type': 'application/json' }),observe: 'body', responseType: 'json'})
+    let category = this.http.get<any>(environment.api+"/category/getCategory/R_Category", {headers: new HttpHeaders({ 'Content-Type': 'application/json' }),observe: 'body', responseType: 'json'})
     let res: Array<Category>=new Array<Category>();
     category.subscribe({
       next: (data) => {
@@ -40,7 +41,7 @@ export class RecipeService {
       NAME:category.name,
       URL:category.url,
     }
-    return this.http.post("http://localhost:8080/category/createCategory/R_Category",data,this.httpOptions);
+    return this.http.post(environment.api+"/category/createCategory/R_Category",data,this.httpOptions);
   }
   updateCategory(id:number,category:Category){
     let data={
@@ -48,13 +49,13 @@ export class RecipeService {
       NAME:category.name,
       URL:category.url,
     }
-    return this.http.put("http://localhost:8080/category/updateCategory/R_Category",data,this.httpOptions);
+    return this.http.put(environment.api+"/category/updateCategory/R_Category",data,this.httpOptions);
   }
   deleteCategory(id:number){
     let data={
       ID:id,
     }
-    return this.http.post("http://localhost:8080/category/deleteCategory/R_Category",data,this.httpOptions);
+    return this.http.post(environment.api+"/category/deleteCategory/R_Category",data,this.httpOptions);
   }
 
   /**
@@ -91,7 +92,7 @@ export class RecipeService {
       }
     })
 
-    return this.http.post<{ID:number}>("http://localhost:8080/recipe/createRecipe", data, this.httpOptions);
+    return this.http.post<{ID:number}>(environment.api+"/recipe/createRecipe", data, this.httpOptions);
   }
   updateRecipe(recipe:Recipe,step:Map<number,string>) {
 
@@ -122,15 +123,15 @@ export class RecipeService {
         console.log("Erreur type")
       }
     })
-    return this.http.put("http://localhost:8080/recipe/updateRecipe", data, this.httpOptions);
+    return this.http.put(environment.api+"/recipe/updateRecipe", data, this.httpOptions);
   }
 
   deleteRecipe(id:number){
     let data={ID:id}
-    return this.http.post<Array<{NAME:string}>>("http://localhost:8080/recipe/deleteRecipe", data, this.httpOptions);
+    return this.http.post<Array<{NAME:string}>>(environment.api+"/recipe/deleteRecipe", data, this.httpOptions);
   }
   getAllRecipe(filtre?:string){
-    let allRecipe = this.http.get<any>("http://localhost:8080/recipe/getAllRecipe"+(filtre?"/"+filtre:""), {headers: new HttpHeaders({ 'Content-Type': 'application/json' }),observe: 'body', responseType: 'json'})
+    let allRecipe = this.http.get<any>(environment.api+"/recipe/getAllRecipe"+(filtre?"/"+filtre:""), {headers: new HttpHeaders({ 'Content-Type': 'application/json' }),observe: 'body', responseType: 'json'})
     let res: Array<Etiquette>=new Array<Etiquette>();
     allRecipe.subscribe({
       next: (data) => {
@@ -161,7 +162,7 @@ export class RecipeService {
 
   }
   getRecipeById(id:number){
-    let recipeRequest = this.http.get<any>("http://localhost:8080/recipe/getRecipeById/"+id, {headers: new HttpHeaders({ 'Content-Type': 'application/json' }),observe: 'body', responseType: 'json'})
+    let recipeRequest = this.http.get<any>(environment.api+"/recipe/getRecipeById/"+id, {headers: new HttpHeaders({ 'Content-Type': 'application/json' }),observe: 'body', responseType: 'json'})
     return new Promise<Recipe>((resolve, reject) => {
       recipeRequest.subscribe({
         next: (data) => {
