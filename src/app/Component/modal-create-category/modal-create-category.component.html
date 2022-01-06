@@ -9,7 +9,7 @@
     <form [formGroup]="form" (ngSubmit)="validate()">
       <div class="modal-body">
         <input class="form-control" type="text" formControlName="name"  placeholder="Nom" />
-        <input *ngIf="type!='Recette'" class="form-control" type="text" formControlName="url" placeholder="Url" />
+        <input *ngIf="type!='Recette' && type!='Ingrédient'" class="form-control" type="text" formControlName="url" placeholder="Url" />
       </div>
       <div class="modal-footer"><button class="btn btn-primary" type="submit">{{updateModal?"Mise à jour":"Créer"}}</button></div>
     </form>

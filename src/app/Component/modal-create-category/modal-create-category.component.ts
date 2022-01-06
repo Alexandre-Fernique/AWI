@@ -32,6 +32,14 @@ export class ModalCreateCategoryComponent implements OnChanges {
     this.form.get("name")?.setValue(this.inputCategory?.name)
     this.form.get("url")?.setValue(this.inputCategory?.url)
   }
+  getValidform(input:string){
+    if(this.form.get(input)!.untouched){
+      return ""
+    }else {
+      return this.form.get(input)!.valid?"is-valid":"is-invalid";
+
+    }
+  }
 
 
 

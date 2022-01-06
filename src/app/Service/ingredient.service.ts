@@ -92,6 +92,20 @@ export class IngredientService {
     return this.http.put(environment.api+"/ingredient/updateIngredient",data,this.httpOptions);
 
   }
+
+  delete(id:number):Observable<any>{
+    let data={
+      ID:id,
+    }
+    return this.http.post(environment.api+"/ingredient/deleteIngredient",data,this.httpOptions)
+  }
+  createCategory(category:Category):Observable<any>{
+    let data={
+      NAME:category.name,
+      URL:category.url,
+    }
+    return this.http.post(environment.api+"/category/createCategory/I_Category",data,this.httpOptions);
+  }
   getIcategory(){
     let category = this.http.get<any>(environment.api+"/category/getCategory/I_Category", {headers: new HttpHeaders({ 'Content-Type': 'application/json' }),observe: 'body', responseType: 'json'})
     let res: Array<Category>=new Array<Category>();
@@ -105,30 +119,6 @@ export class IngredientService {
       error: (e) => console.error(e)
     })
     return res;
-  }
-  getAllergen(){
-    let category = this.http.get<Array<{ID_INGREDIENT:number,ID_ALLERGEN:Array<number>}>>(environment.api+"/ingredient/getAllergen", {headers: new HttpHeaders({ 'Content-Type': 'application/json' }),observe: 'body', responseType: 'json'})
-    let res: Array<{ID_INGREDIENT:number,ID_ALLERGEN:Array<number>}>=new Array<{ID_INGREDIENT: number; ID_ALLERGEN: Array<number>}>();
-    category.subscribe({
-      next: (data) => {
-        res=data;
-      },
-      error: (e) => console.error(e)
-    })
-    return res;
-  }
-  delete(id:number):Observable<any>{
-    let data={
-      ID:id,
-    }
-    return this.http.post(environment.api+"/ingredient/deleteIngredient",data,this.httpOptions)
-  }
-  createCategory(category:Category):Observable<any>{
-    let data={
-      NAME:category.name,
-      URL:category.url,
-    }
-    return this.http.post(environment.api+"/category/createCategory/I_Category",data,this.httpOptions);
   }
   updateCategory(id:number,category:Category){
     let data={

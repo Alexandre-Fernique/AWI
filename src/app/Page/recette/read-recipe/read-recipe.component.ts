@@ -36,6 +36,7 @@ export class ReadRecipeComponent implements OnInit {
       next:(d)=>{
         this.cout_fluide=d.COUT_FLUIDE
         this.cout_personnel=d.COUT_PERSONNEL
+        this.marge.setValue(d.MARGE)
 
       }
     })
@@ -74,6 +75,10 @@ export class ReadRecipeComponent implements OnInit {
   }
   enregistrer(){
     if(this.recipe?.stockAvailableForRecipe()){
+      AlertComponent.alert("Vente enrgistré","success",this.view)
+      this.router.navigate(['/'])
+
+
 
     }else{
       AlertComponent.alert("Stock insuffisant","danger",this.view)
@@ -81,15 +86,7 @@ export class ReadRecipeComponent implements OnInit {
 
   }
 
-  /*
-  getSeuil(){
-    if(this.marge.value>1 && this.chargeCost.value){
-      return this.getCoutMatiere(1)/(this.getCoutFluide()+this.getCoutPersonnel())
-    }else{
-      return "Impossible à calculer"
-    }
 
-  }*/
   async download(){
 
       var pdf = new jsPDF('p', 'pt', "a4");

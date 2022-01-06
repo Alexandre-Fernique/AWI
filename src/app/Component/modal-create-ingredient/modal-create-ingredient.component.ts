@@ -37,7 +37,7 @@ export class ModalCreateIngredientComponent implements  OnChanges {
 
   constructor(private requestI: IngredientService, private requestA: AllergenService,public viewcontainer:ViewContainerRef) {
     this.category = requestI.getIcategory();
-    this.allergenList = requestA.getAllAllergen();
+    this.allergenList = requestA.getAllergen();
     this.selectAllergen = new FormControl();
     this.newIngredient = new EventEmitter<Ingredient>();
 

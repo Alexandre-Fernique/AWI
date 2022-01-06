@@ -31,8 +31,8 @@ export class AllergenComponent {
   selecteAllergen:Allergen|undefined
 
   constructor(private request:AllergenService,public viewContainerRef: ViewContainerRef ,public dialogRef:MatDialog) {
-    this.category=request.getAcategory();
-    this.allergen=request.getAllAllergen();
+    this.category=request.getCategory();
+    this.allergen=request.getAllergen();
 
 
 
@@ -89,7 +89,7 @@ export class AllergenComponent {
     })
     dialog.afterClosed().subscribe(result => {
       if (result) {
-        this.request.delete(item.id).subscribe({
+        this.request.deleteAllergen(item.id).subscribe({
             error: (e) => {
               console.error(e)
             },

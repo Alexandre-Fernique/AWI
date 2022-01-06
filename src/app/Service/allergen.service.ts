@@ -18,7 +18,7 @@ export class AllergenService {
 
   }
 
-  getAllAllergen(){
+  getAllergen(){
     let allAllergen = this.http.get<any>(environment.api+"/allergen/getAll", {headers: new HttpHeaders({ 'Content-Type': 'application/json' }),observe: 'body', responseType: 'json'})
     let res: Array<Allergen>=new Array<Allergen>();
     allAllergen.subscribe({
@@ -72,14 +72,14 @@ export class AllergenService {
   }
 
 
-  delete(id:number):Observable<any>{
+  deleteAllergen(id:number):Observable<any>{
     let data={
       ID:id,
     }
     return this.http.post(environment.api+"/allergen/deleteAllergen",data,this.httpOptions)
   }
 
-  getAcategory(){
+  getCategory(){
     let category = this.http.get<any>(environment.api+"/category/getCategory/A_Category", {headers: new HttpHeaders({ 'Content-Type': 'application/json' }),observe: 'body', responseType: 'json'})
     let res: Array<Category>=new Array<Category>();
     category.subscribe({

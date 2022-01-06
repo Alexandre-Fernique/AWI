@@ -13,13 +13,14 @@ export class ConstantCostService {
 
   }
 
-  setCost(coutFluide:number,coutPersonnel:number,coutAssaisonnement:number,type:boolean){
+  setCost(coutFluide: number, coutPersonnel: number, coutAssaisonnement: number, type: boolean, marge: number){
 
     var data = {
       COUT_FLUIDE:coutFluide ,
       COUT_PERSONNEL: coutPersonnel,
       COUT_ASSAISONEMENT: coutAssaisonnement,
       ISPERCENT:type,
+      MARGE:marge,
     }
 
     return this.http.put(environment.api+"/recipe/setCost", data, this.httpOptions);
@@ -31,6 +32,7 @@ export class ConstantCostService {
       COUT_PERSONNEL: number,
       COUT_ASSAISONNEMENT: number,
       ISPERCENT:boolean,
+      MARGE:number,
     }>(environment.api+"/recipe/getCost", {headers: new HttpHeaders({ 'Content-Type': 'application/json' }),observe: 'body', responseType: 'json'})
   }
 }

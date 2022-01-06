@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Output, ViewContainerRef} from '@angular/core';
-import {FormBuilder} from "@angular/forms";
+import {FormBuilder, Validators} from "@angular/forms";
 import {ConstantCostService} from "../../Service/constant-cost.service";
 import {AlertComponent} from "../alert/alert.component";
 
@@ -12,10 +12,11 @@ export class ModalModifyConstantComponent {
   @Output() newData: EventEmitter<{COUT_PERSONNEL:number,COUT_FLUIDE:number}>=new EventEmitter<{COUT_PERSONNEL: number; COUT_FLUIDE: number}>()
   fb=new FormBuilder();
   form=this.fb.group({
-    coutPersonnel:[""],
-    coutFluide:[""],
-    coutAssaisonement:[""],
-    typeAssaisonement:[""]
+    coutPersonnel:["",[Validators.required]],
+    coutFluide:["",[Validators.required]],
+    coutAssaisonement:["",[Validators.required]],
+    typeAssaisonement:["",[Validators.required]],
+    marge:["",[Validators.required]]
   })
 
   constructor(private request:ConstantCostService,public viewcontain:ViewContainerRef) {
@@ -24,16 +25,21 @@ export class ModalModifyConstantComponent {
         this.form.get("coutPersonnel")?.setValue(data.COUT_PERSONNEL);
         this.form.get("coutFluide")?.setValue(data.COUT_FLUIDE);
         this.form.get("coutAssaisonement")?.setValue(data.COUT_ASSAISONNEMENT);
-        this.form.get("typeAssaisonement")?.setValue(data.ISPERCENT.valueOf())
+        this.form.get("typeAssaisonement")?.setValue(data.ISPERCENT.valueOf());
+        this.form.get("marge")?.setValue(data.MARGE);
       }
     }
     )
 
   }
+  getValidform(input:string){
+
+      return this.form.get(input)!.valid?"is-valid":"is-invalid";
+  }
 
   validate(){
 
-    this.request.setCost(this.form.get("coutFluide")?.value,this.form.get("coutPersonnel")?.value,this.form.get("coutAssaisonement")?.value,this.form.get("typeAssaisonement")?.value).subscribe(
+    this.request.setCost(this.form.get("coutFluide")?.value,this.form.get("coutPersonnel")?.value,this.form.get("coutAssaisonement")?.value,this.form.get("typeAssaisonement")?.value,this.form.get("marge")?.value).subscribe(
       {
         error:(e)=>{
           console.log(e);

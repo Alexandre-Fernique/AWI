@@ -8,19 +8,36 @@
       <div class="modal-body">
 
         <div class="form-floating mb-3">
-          <input class="form-control" type="number" formControlName="coutPersonnel" id="floatingInput1" placeholder="Coût du personnel (€/heure)" />
+          <input class="form-control" [ngClass]="getValidform('coutPersonnel')" type="number" formControlName="coutPersonnel" id="floatingInput1" placeholder="Coût du personnel (€/heure)" />
           <label for="floatingInput1">Coût du personnel (€/heure)</label>
+          <div  class="invalid-feedback">
+            Entre une valeur
+          </div>
         </div>
 
         <div class="form-floating mb-3">
-          <input class="form-control" type="number" formControlName="coutFluide" id="floatingInput2" placeholder="Coût des fluides (€/heure)" />
+          <input class="form-control" [ngClass]="getValidform('coutFluide')" type="number" formControlName="coutFluide" id="floatingInput2" placeholder="Coût des fluides (€/heure)" />
           <label for="floatingInput2">Coût des fluides (€/heure)</label>
+          <div  class="invalid-feedback">
+            Entre une valeur
+          </div>
         </div>
+        <div class="form-floating mb-3">
+          <input class="form-control" [ngClass]="getValidform('marge')" type="number" formControlName="marge" id="floatingInput4" placeholder="Coefficient mutliplicateur pour la vente" />
+          <label for="floatingInput4">Coefficient mutliplicateur pour la vente</label>
+          <div  class="invalid-feedback">
+            Entre une valeur
+          </div>
+        </div>
+
         <div class="row mb-3">
           <div class="col">
             <div class="form-floating">
-              <input class="form-control" type="number" formControlName="coutAssaisonement" id="floatingInput3" min="0" placeholder="Coût d'assaisonnement par défaut" />
+              <input class="form-control" [ngClass]="getValidform('coutAssaisonement')" type="number" formControlName="coutAssaisonement" id="floatingInput3" min="0" placeholder="Coût d'assaisonnement par défaut" />
               <label for="floatingInput3">Coût d'assaisonnement par défaut (En {{this.form.get('typeAssaisonement')!.value==1?"%":"€"}})</label>
+            </div>
+            <div  class="invalid-feedback">
+              Entre une valeur
             </div>
 
           </div>

@@ -61,12 +61,11 @@ export class CreerRecetteComponent implements OnInit{
   constructor(private route: ActivatedRoute,private http:IngredientService,private requestS:StepService,private cost:ConstantCostService,private requestR:RecipeService,public viewRef:ViewContainerRef) {
     this.ingredient=http.getAllIngredient();
     this.stepList=requestS.getAllStep();
-    this.RCategory=requestR.getRCategory()
+    this.RCategory=requestR.getCategory()
     this.recipeList=requestR.getAllRecipe()
     this.cost.getCost().subscribe({
         next:(data)=>{
           this.form.get("coutAssaisonement")?.setValue(data.COUT_ASSAISONNEMENT);
-          console.log(data.ISPERCENT)
           this.form.get("typeAssaisonement")?.setValue(data.ISPERCENT)
         }
       }

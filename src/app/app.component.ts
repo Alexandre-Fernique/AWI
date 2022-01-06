@@ -21,7 +21,7 @@ export class AppComponent {
   editMode=false;
   selectedCategory:Category|undefined;
   constructor(private request:RecipeService,public view:ViewContainerRef,public dialogRef:MatDialog) {
-    this.category=request.getRCategory()
+    this.category=request.getCategory()
     this.etiquetteArray=request.getAllRecipe()
     console.log(this.etiquetteArray)
     this.filtre.valueChanges.subscribe(value => {

@@ -19,7 +19,7 @@ export class ModalCreateAllergenComponent implements OnChanges {
   fb: FormBuilder;
 
   constructor(private requestA: AllergenService, public viewContainerRef: ViewContainerRef) {
-    this.category = requestA.getAcategory();
+    this.category = requestA.getCategory();
     this.fb = new FormBuilder()
     this.newAllergen = new EventEmitter<Allergen>();
     this.form = this.fb.group({
@@ -32,6 +32,14 @@ export class ModalCreateAllergenComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     this.form.get("name")?.setValue(this.inputAllergen?.name)
     this.form.get("id")?.setValue(this.inputAllergen?.id_category)
+  }
+  getValidform(input:string){
+    if(this.form.get(input)!.untouched){
+      return ""
+    }else {
+      return this.form.get(input)!.valid?"is-valid":"is-invalid";
+
+    }
   }
 
 

@@ -62,7 +62,7 @@
     </div>
     <p class="container allergenClass">* Présence d'allergène</p>
     <div class="container fit-content" *ngIf="impresionCout">
-      <app-table  [ingredientMap]="this.recipe.getIngredient()"></app-table>
+      <app-table [nbTable]="this.recipe.nb_couvert" [ingredientMap]="this.recipe.getIngredient()"></app-table>
       <table class="table" >
         <thead>
         <th>Catégorie</th>

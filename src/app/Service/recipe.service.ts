@@ -23,7 +23,7 @@ export class RecipeService {
   constructor(private http: HttpClient) {
 
   }
-  getRCategory(){
+  getCategory(){
     let category = this.http.get<any>(environment.api+"/category/getCategory/R_Category", {headers: new HttpHeaders({ 'Content-Type': 'application/json' }),observe: 'body', responseType: 'json'})
     let res: Array<Category>=new Array<Category>();
     category.subscribe({
