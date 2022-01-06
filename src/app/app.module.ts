@@ -33,6 +33,7 @@ import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import { ConfirmDialogComponent } from './Component/confirm-dialog/confirm-dialog.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import { PdfComponent } from './Component/pdf/pdf.component';
+import { PathLocationStrategy, LocationStrategy } from '@angular/common';
 
 
 const routes: Routes = [
@@ -89,7 +90,7 @@ const routes: Routes = [
         MatSlideToggleModule,
         MatDialogModule,
     ],
-  providers: [],
+  providers: [{ provide: LocationStrategy, useClass: PathLocationStrategy }],
   bootstrap: [RootComponent]
 })
 export class AppModule {

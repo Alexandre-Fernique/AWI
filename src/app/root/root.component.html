@@ -1,2 +1,30 @@
+<nav class="navbar navbar-light navbar-expand-xxl sticky-top navigation-clean-button" style="background: #007a8f;">
+  <div class="container">
+    <a class="navbar-brand" routerLink="" style="color: #f2f2f0;">Cooking Manager<br/>
+    </a>
+    <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navcol-2">
+      <span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+    <div id="navcol-2" class="collapse navbar-collapse">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item dropdown"><a class="dropdown-toggle nav-link" aria-expanded="false"
+                                         data-bs-toggle="dropdown" href="#" style="color: #f2f2f0;">Plat</a>
+          <div class="dropdown-menu" style="background: #9e386b;"><a class="dropdown-item" routerLink="/creerRecette"
+                                                                     style="color: #f2f2f0;">Créer une recette</a><a
+            class="dropdown-item" href="" style="color: #f2f2f0;">Liste des recettes</a></div>
+        </li>
+        <li class="nav-item dropdown"><a class="dropdown-toggle nav-link" aria-expanded="false"
+                                         data-bs-toggle="dropdown" href="#" style="color: #f2f2f0;">Mercuriale</a>
+          <div class="dropdown-menu" style="background: #9e386b;"><a class="dropdown-item" routerLink="/ingredient"
+                                                                     style="color: #f2f2f0;">Ingredient</a>
+            <a class="dropdown-item" routerLink="/allergen" style="color: #f2f2f0;">Allergène</a>
+            <a class="dropdown-item" routerLink="/step" style="color: #f2f2f0;">Étape</a></div>
+        </li>
+      </ul>
+      <span class="navbar-text actions"><a
+        class="btn btn-primary action-button" role="button" data-bs-target="#constant" data-bs-toggle="modal"
+        style="background: #9e386b;color: #f2f2f0;">Paramètres</a></span>
+    </div>
+  </div>
+</nav>
 <router-outlet ></router-outlet>
 <app-modal-modify-constant id="constant" class="modal fade" role="dialog" tabindex="-1"></app-modal-modify-constant>
