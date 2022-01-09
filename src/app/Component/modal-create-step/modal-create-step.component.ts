@@ -99,14 +99,7 @@ export class ModalCreateStepComponent implements  OnChanges {
     this.form.removeControl(item.toString()+"ID")
     this.form.removeControl(item.toString() + "Q");
   }
-  getValidform(input:string){
-    if(this.form.get(input)!.untouched){
-      return ""
-    }else {
-      return this.form.get(input)!.valid?"is-valid":"is-invalid";
 
-    }
-  }
 
   validate() {
     let ingredient=new Map<Ingredient,number>()
@@ -122,6 +115,7 @@ export class ModalCreateStepComponent implements  OnChanges {
           AlertComponent.alert("Étape "+newStep.name+" créer","success",this.viewcontainer)
 
           this.newStepEmiter.emit(newStep);
+          this.reInitializeForm();
         },
         error: (e) => {
           console.error(e)
@@ -137,6 +131,7 @@ export class ModalCreateStepComponent implements  OnChanges {
             newStep.id=(res as {ID:number}).ID;
             AlertComponent.alert("Étape "+newStep.name+" mis à jour","success",this.viewcontainer)
             this.newStepEmiter.emit(newStep);
+            this.reInitializeForm();
           },
           error: (e) => {
             console.error(e)
@@ -167,6 +162,16 @@ export class ModalCreateStepComponent implements  OnChanges {
     else {
       return "";
     }
+  }
+  reInitializeForm(){
+    this.form.get("name")?.setValue("")
+    this.form.get("description")?.setValue("")
+    this.form.get("duration")?.setValue("")
+    for(let item of this.liste){
+      this.form.removeControl(item.toString()+"ID")
+      this.form.removeControl(item.toString() + "Q");
+    }
+    this.liste=new Array()
   }
 
 }

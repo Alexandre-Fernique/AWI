@@ -46,6 +46,7 @@ export class ModalCreateCategoryComponent implements OnChanges {
             category.id=(res as {ID:number}).ID;
             AlertComponent.alert("Catégorie "+category.name+" créer","success",this.viewContainerRef);
             this.newCategory.emit(category);
+            this.reInitializeForm();
           },
           error: (e) => {
             console.error(e)
@@ -58,6 +59,7 @@ export class ModalCreateCategoryComponent implements OnChanges {
             category.id=(res as {ID:number}).ID;
             AlertComponent.alert("Catégorie "+category.name+" créer","success",this.viewContainerRef);
             this.newCategory.emit(category);
+            this.reInitializeForm();
           },
           error: (e) => {
             console.error(e)
@@ -70,6 +72,7 @@ export class ModalCreateCategoryComponent implements OnChanges {
             category.id=(res as {ID:number}).ID;
             AlertComponent.alert("Catégorie "+category.name+" créer","success",this.viewContainerRef);
             this.newCategory.emit(category);
+            this.reInitializeForm();
           },
           error: (e) => {
             console.error(e)
@@ -91,6 +94,7 @@ export class ModalCreateCategoryComponent implements OnChanges {
             category.id=this.inputCategory!.id
             AlertComponent.alert("Catégorie "+category.name+" mise à jour","success",this.viewContainerRef);
             this.newCategory.emit(category);
+            this.reInitializeForm();
 
           }
         })
@@ -103,6 +107,7 @@ export class ModalCreateCategoryComponent implements OnChanges {
             category.id=this.inputCategory!.id
             AlertComponent.alert("Catégorie "+category.name+" mise à jour","success",this.viewContainerRef);
             this.newCategory.emit(category);
+            this.reInitializeForm();
         }})
       }else if(this.type=="Recette") {
         this.rHttp.updateCategory(this.inputCategory!.id,category).subscribe({
@@ -113,6 +118,7 @@ export class ModalCreateCategoryComponent implements OnChanges {
             category.id=this.inputCategory!.id
             AlertComponent.alert("Catégorie "+category.name+" mise à jour","success",this.viewContainerRef);
             this.newCategory.emit(category);
+            this.reInitializeForm();
           }})
 
 
@@ -122,6 +128,11 @@ export class ModalCreateCategoryComponent implements OnChanges {
 
     }
 
+
+  }
+  reInitializeForm(){
+    this.form.get("name")?.setValue("")
+    this.form.get("url")?.setValue("")
 
   }
 

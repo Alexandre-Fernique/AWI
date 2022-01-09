@@ -1,5 +1,5 @@
 
-<section>
+<section class="mb-5">
   <div class="container justify-content-xxl-center">
     <div class="row mt-5 mb-3">
       <div class="col mx-3">
@@ -46,7 +46,7 @@
                 </svg>
               </button>
             </ng-container>
-            <img height="30" *ngIf="item.url!=null" src="{{item.url}}" alt="Allergen icon"/>
+            <img class="mx-2" height="30" *ngIf="item.url!=null" src="{{item.url}}" alt="Allergen icon"/>
             {{item.name}}</button></h2>
         <div [attr.class]="'accordion-collapse collapse item-'+item.id" role="tabpanel" >
           <div class="accordion-body">

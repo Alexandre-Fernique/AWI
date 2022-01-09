@@ -77,6 +77,7 @@ export class ModalCreateIngredientComponent implements  OnChanges {
           ingredient.id=(res as {ID:number}).ID;
           AlertComponent.alert("Ingrédient "+ingredient.name+" créer","success",this.viewcontainer);
           this.newIngredient.emit(ingredient);
+          this.reInitializeForm();
         },
         error: (e) => {
           console.error(e)
@@ -96,10 +97,20 @@ export class ModalCreateIngredientComponent implements  OnChanges {
             AlertComponent.alert("Ingrédient " + ingredient.name + " mis à jour", "success",this.viewcontainer);
             ingredient.id=ID;
             this.newIngredient.emit(ingredient);
+            this.reInitializeForm();
           }
         })
       }
     }
+
+  }
+  reInitializeForm(){
+    this.form.get("name")?.setValue("")
+    this.form.get("unit")?.setValue("")
+    this.form.get("unit_price")?.setValue("")
+    this.form.get("id")?.setValue("")
+    this.form.get("stock")?.setValue("")
+    this.form.get("allergen")?.setValue("")
 
   }
 

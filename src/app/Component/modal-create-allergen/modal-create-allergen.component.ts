@@ -45,6 +45,7 @@ export class ModalCreateAllergenComponent implements OnChanges {
           allergen.id=(res as {ID:number}).ID;
           AlertComponent.alert("Allergène "+allergen.name+" créer","success",this.viewContainerRef);
           this.newAllergen.emit(allergen);
+          this.reInitializeForm()
         },
         error: (e) => {
           console.error(e)
@@ -63,10 +64,16 @@ export class ModalCreateAllergenComponent implements OnChanges {
           allergen.id=this.inputAllergen!.id
           AlertComponent.alert("Allergène "+allergen.name+" créer","success",this.viewContainerRef);
           this.newAllergen.emit(allergen);
+          this.reInitializeForm()
 
         }
       })
     }
+
+  }
+  reInitializeForm(){
+    this.form.get("name")?.setValue("")
+    this.form.get("id")?.setValue("")
 
   }
 
