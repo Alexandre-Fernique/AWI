@@ -8,9 +8,7 @@
       <button class="btn btn-primary " type="button" data-bs-target="#creerEtape" data-bs-toggle="modal">Creer une étape
       </button>
     </div>
-
   </div>
-
 
 </div>
 
@@ -75,10 +73,6 @@
 
         </div>
 
-
-
-
-
       </div>
     </td>
   </ng-container>
@@ -95,5 +89,6 @@
     <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
   </tr>
 </table>
-<app-modal-create-step id="creerEtape" class="modal fade" role="dialog" tabindex="-1" (newStepEmiter)="updateEmitter()"></app-modal-create-step>
-<app-modal-create-step [updateModal]="true" id="updateEtape"  (newStepEmiter)="updateEmitter()" class="modal fade" role="dialog" tabindex="-1" [inputStep]="steptoUpdate"></app-modal-create-step>
+<app-modal-create-step [ingredientDonne]="listeIngredient" id="creerEtape" class="modal fade" role="dialog" tabindex="-1" (newStepEmiter)="updateEmitter()"></app-modal-create-step>
+<app-modal-create-step [ingredientDonne]="listeIngredient" [updateModal]="true" id="updateEtape"  (newStepEmiter)="updateEmitter()" class="modal fade" role="dialog" tabindex="-1" [inputStep]="steptoUpdate"></app-modal-create-step>
+<app-modal-create-ingredient id="creerIngredient" class="modal fade" role="dialog" tabindex="-1" (newIngredient)="newIngredient($event)"></app-modal-create-ingredient>

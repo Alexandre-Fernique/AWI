@@ -11,6 +11,7 @@ app-table{
 #pdfTable{
   max-width:595px;
   font-size: 10px;
+  position: fixed;
 }
 .right-table{
   padding-left: 10px;

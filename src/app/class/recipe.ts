@@ -1,7 +1,7 @@
 import {Step} from "./step";
 import {Stepable} from "./stepable";
 import {Ingredient} from "./ingredient";
-import {map} from "rxjs";
+
 
 export class Recipe implements Stepable{
   id: number;
@@ -11,13 +11,13 @@ export class Recipe implements Stepable{
   coutAssaisonnementIsPercent: boolean;
   author: string;
   id_category: number;
-  step: Map<number, Stepable>
+  step: Array<Stepable>
 
 
-  constructor(id: number, name: string, nb_couvert: number, cout_assaisonnement: number, coutAssaisonnementIsPercent: boolean, author: string, id_category: number, step: Map<number, Step>) {
+  constructor(id: number, name="None", nb_couvert=0, cout_assaisonnement=0, coutAssaisonnementIsPercent=false, author="none", id_category=-1, step:Array<Stepable>=new Array<Step>() ) {
     this.id = id;
     this.name = name;
-    this.nb_couvert = nb_couvert;
+    this.nb_couvert = nb_couvert ;
     this.cout_assaisonnement = cout_assaisonnement;
     this.coutAssaisonnementIsPercent = coutAssaisonnementIsPercent;
     this.author = author;

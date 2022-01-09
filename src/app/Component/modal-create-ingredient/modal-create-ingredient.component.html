@@ -7,55 +7,65 @@
 
     <form style="padding: 12px;" [formGroup]="form" (ngSubmit)="validate()" >
       <div class="modal-body" >
-        <div class=" mb-3">
-          <input class="form-control" type="text"  [ngClass]="getValidform('name')" formControlName="name"  placeholder="Nom" />
-          <div  class="invalid-feedback">
-            Entrez un nom d'ingrédient
-          </div>
+        <div>
+          <mat-form-field class="" appearance="outline">
+            <mat-label>Nom d'ingrédient</mat-label>
+            <input matInput placeholder="Courgette" formControlName="name" required>
+            <mat-error>Entrez un nom d'ingrédient</mat-error>
+          </mat-form-field>
         </div>
 
-        <div class="mb-3">
-          <input class="form-control" type="text" formControlName="unit"  placeholder="Unité" [ngClass]="getValidform('unit')"/>
-          <div  class="invalid-feedback">
-            Entrez une unité
+        <div class="row">
+          <div class="col">
+            <mat-form-field class="" appearance="outline">
+              <mat-label>Unité de l'ingrédient</mat-label>
+              <input matInput placeholder="Kg" formControlName="unit" required>
+              <mat-error >Entrez une unité</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col">
+            <mat-form-field  appearance="outline" >
+              <mat-label>Prix unitaire (€)</mat-label>
+              <input matInput placeholder="1,5" type="number" formControlName="unit_price" required>
+              <mat-error >Entrez un prix unitaire</mat-error>
+            </mat-form-field>
+
           </div>
         </div>
-        <div class="mb-3">
-          <div class="input-group" [ngClass]="getValidform('unit_price')">
-            <input class="form-control" type="number" formControlName="unit_price" [ngClass]="getValidform('unit_price')"  placeholder="Prix à l&#39;unité" />
-            <span class="input-group-text input">€</span>
-          </div>
-          <div  class="invalid-feedback">
-            Entrez un prix unitaire
-          </div>
+        <div>
+          <mat-form-field  appearance="outline" >
+            <mat-label> Stocks {{getUnit().value?'(En '+getUnit().value+')':''}}</mat-label>
+            <input matInput placeholder="1,5" type="number" formControlName="stock" required>
+            <mat-error >Entrez le nombre d'ingrédient en stock</mat-error>
+          </mat-form-field>
         </div>
 
+        <div class="row">
+          <div class="col">
+            <mat-form-field class="" appearance="outline">
+              <mat-label>Catégorie</mat-label>
+              <mat-select formControlName="id" required>
+                <mat-option *ngFor="let item of category" [value]="item.id">{{item.name}}</mat-option>
 
-        <div class="mb-3">
-          <div class="input-group " [ngClass]="getValidform('stock')">
-            <input class="form-control" type="number"  formControlName="stock" placeholder="Stocks" [ngClass]="getValidform('stock')"/>
-            <span class="input-group-text">(En {{getUnit().value}})</span>
+              </mat-select>
+              <mat-error >Sélectionner une catégorie d'ingrédient</mat-error>
+            </mat-form-field>
           </div>
-          <div  class="invalid-feedback">
-          Entrez le nombre d'ingrédient en stock
-        </div>
-        </div>
 
-        <div class="mb-3">
-          <select class="form-select " formControlName="id" [ngClass]="getValidform('id')">
-            <option value="" disabled selected>Catégorie</option>
-            <option *ngFor="let item of category" [ngValue]="item.id">{{item.name}}</option>
-          </select>
-          <div  class="invalid-feedback">
-            Sélectionner une catégorie d'ingrédient
+          <div class="col">
+            <mat-form-field appearance="outline">
+              <mat-label>Allergène</mat-label>
+              <mat-select formControlName="allergen" >
+                <mat-option value="-1">Aucun</mat-option>
+                <mat-option *ngFor="let item of allergenList" [value]="item.id">{{item.name}}</mat-option>
+
+
+              </mat-select>
+            </mat-form-field>
+
           </div>
         </div>
-
-        <select class="form-select mb-3" formControlName="allergen">
-          <option value="" disabled selected>Allergène</option>
-          <option value="-1">Aucun</option>
-          <option *ngFor="let item of allergenList" [ngValue]="item.id">{{item.name}}</option>
-        </select>
 
       </div>
       <div class="modal-footer">

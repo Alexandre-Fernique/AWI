@@ -33,14 +33,7 @@ export class ModalCreateAllergenComponent implements OnChanges {
     this.form.get("name")?.setValue(this.inputAllergen?.name)
     this.form.get("id")?.setValue(this.inputAllergen?.id_category)
   }
-  getValidform(input:string){
-    if(this.form.get(input)!.untouched){
-      return ""
-    }else {
-      return this.form.get(input)!.valid?"is-valid":"is-invalid";
 
-    }
-  }
 
 
 

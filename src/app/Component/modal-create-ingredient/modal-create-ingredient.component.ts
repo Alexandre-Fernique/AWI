@@ -17,10 +17,10 @@ import {AlertComponent} from "../alert/alert.component";
   styleUrls: ['./modal-create-ingredient.component.css'],
 })
 export class ModalCreateIngredientComponent implements  OnChanges {
-  @Input() category: Array<Category>;
+  @Input() category: Array<Category>|undefined;
   @Input() inputIngredient: Ingredient | undefined;
   @Input() updateModal:boolean=false;
-  @Output() newIngredient: EventEmitter<Ingredient>
+  @Output() newIngredient= new EventEmitter<Ingredient>();
 
   fb: FormBuilder= new FormBuilder();
   form: FormGroup=this.fb.group({
@@ -36,10 +36,11 @@ export class ModalCreateIngredientComponent implements  OnChanges {
 
 
   constructor(private requestI: IngredientService, private requestA: AllergenService,public viewcontainer:ViewContainerRef) {
-    this.category = requestI.getIcategory();
+    if(this.category==undefined){
+      this.category = requestI.getIcategory();
+    }
     this.allergenList = requestA.getAllergen();
     this.selectAllergen = new FormControl();
-    this.newIngredient = new EventEmitter<Ingredient>();
 
   }
 
@@ -60,17 +61,6 @@ export class ModalCreateIngredientComponent implements  OnChanges {
   getUnit(){
     return this.form.get("unit")!;
   }
-  getValidform(input:string){
-    if(this.form.get(input)!.untouched){
-      return ""
-    }else {
-      return this.form.get(input)!.valid?"is-valid":"is-invalid";
-
-    }
-  }
-
-
-
 
   validate(){
     let allergenValue:Allergen|undefined=undefined;

@@ -1,0 +1,38 @@
+.footer{
+  background-color: #2c3e50;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  width: 100%;
+  margin-top: -104px;
+
+}
+
+.content{
+  min-height: 100%;
+}
+.content-inside{
+  padding: 20px;
+  padding-bottom: 104px;
+}
+
+
+.btn-social{
+  width: 3.25rem;
+  height: 3.25rem;
+  font-size: 1.25rem;
+  line-height: 2rem;
+  border-width: 2px;
+
+}
+.btn-social:hover>svg {
+  fill: black;
+}
+.link-footer{
+  color: white;
+  text-decoration: none;
+}
+.link-footer:hover{
+  text-decoration: underline;
+
+}
+

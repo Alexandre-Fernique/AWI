@@ -7,14 +7,22 @@
 
     <form [formGroup]="form" (ngSubmit)="validate()">
       <div class="modal-body">
-        <input class="form-control" type="text" formControlName="name"  placeholder="Nom" />
-        <select class="form-select" formControlName="id"  >
-          <option value="" disabled selected>Catégorie</option>
-          <option *ngFor="let item of category"  [ngValue]="item.id" >{{item.name}}</option>
-        </select>
+        <mat-form-field class="" appearance="outline">
+          <mat-label>Nom d'allergène</mat-label>
+          <input matInput placeholder="Gluten" formControlName="name" required>
+          <mat-error >Entrez un nom d'allergène</mat-error>
+        </mat-form-field>
 
+        <mat-form-field class="" appearance="outline">
+          <mat-label>Catégorie</mat-label>
+          <mat-select formControlName="id" required>
+            <mat-option *ngFor="let item of category" [value]="item.id">{{item.name}}</mat-option>
+
+          </mat-select>
+          <mat-error >Sélectionner une catégorie d'allergène</mat-error>
+        </mat-form-field>
       </div>
-      <div class="modal-footer"><button class="btn btn-primary" type="submit">{{updateModal?"Mise à jour":"Créer"}}</button></div>
+      <div class="modal-footer"><button class="btn btn-primary" data-bs-dismiss="modal" type="submit" [disabled]="!form.valid">{{updateModal?"Mise à jour":"Créer"}}</button></div>
     </form>
   </div>
 </div>

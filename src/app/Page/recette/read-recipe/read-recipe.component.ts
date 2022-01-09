@@ -8,6 +8,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {ConfirmDialogComponent} from "../../../Component/confirm-dialog/confirm-dialog.component";
 import {AlertComponent} from "../../../Component/alert/alert.component";
 import { jsPDF } from "jspdf"
+import {IngredientService} from "../../../Service/ingredient.service";
 
 @Component({
   selector: 'app-read-recipe',
@@ -28,7 +29,7 @@ export class ReadRecipeComponent implements OnInit {
 
 
 
-  constructor(private route: ActivatedRoute,private router:Router,private request:RecipeService,private cost:ConstantCostService,private dialogRef:MatDialog,private view:ViewContainerRef) {
+  constructor(private route: ActivatedRoute,private router:Router,private request:RecipeService,private cost:ConstantCostService,private dialogRef:MatDialog,private view:ViewContainerRef,private ingredientRequest :IngredientService) {
     this.id=null;
     this.cout_fluide=0
     this.cout_personnel=0
@@ -76,10 +77,14 @@ export class ReadRecipeComponent implements OnInit {
   enregistrer(){
     if(this.recipe?.stockAvailableForRecipe()){
       AlertComponent.alert("Vente enrgistré","success",this.view)
-      this.router.navigate(['/'])
-
-
-
+      this.ingredientRequest.updateStock(this.recipe?.getIngredient(),this.recipe?.nb_couvert).subscribe({
+        error:(err) => {
+          AlertComponent.alert("Problème Back","danger",this.view)
+        },
+        complete:()=>{
+          this.router.navigate(['/'])
+        }
+      })
     }else{
       AlertComponent.alert("Stock insuffisant","danger",this.view)
     }

@@ -33,7 +33,6 @@ export class ModalModifyConstantComponent {
 
   }
   getValidform(input:string){
-
       return this.form.get(input)!.valid?"is-valid":"is-invalid";
   }
 

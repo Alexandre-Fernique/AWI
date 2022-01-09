@@ -8,6 +8,7 @@ import {Allergen} from "../class/allergen";
 import {Etiquette} from "../class/etiquette";
 import {Observable} from "rxjs";
 import {environment} from "../../environments/environment";
+import {Stepable} from "../class/stepable";
 
 
 
@@ -63,7 +64,7 @@ export class RecipeService {
    * @param recipe La recette a créer
    * @param step key=position de l'étape, value= le type de l'étape + son id ex("R2")
    */
-  createRecipe(recipe:Recipe,step:Map<number,string>) {
+  createRecipe(recipe:Recipe,step:Array<string>) {
 
     var data = {
       NAME: recipe.name,
@@ -74,16 +75,16 @@ export class RecipeService {
       ID_Category:recipe.id_category,
       STEP: ([] as Array<{ RANK: number, ID: number | null, TYPE:string }>)
     }
-    step.forEach((value, key) => {
+    step.forEach((value, index) => {
       if(value.startsWith("S")){
         data.STEP.push({
-          RANK: key,
+          RANK: index,
           ID: parseInt(value.substring(1)),
           TYPE:"STEP",
         })
       }else if(value.startsWith("R")) {
         data.STEP.push({
-          RANK: key,
+          RANK: index,
           ID: parseInt(value.substring(1)),
           TYPE:"RECIPE",
         })
@@ -94,7 +95,8 @@ export class RecipeService {
 
     return this.http.post<{ID:number}>(environment.api+"/recipe/createRecipe", data, this.httpOptions);
   }
-  updateRecipe(recipe:Recipe,step:Map<number,string>) {
+
+  updateRecipe(recipe: Recipe, step: string[]) {
 
     var data = {
       ID:recipe.id,
@@ -106,16 +108,16 @@ export class RecipeService {
       ID_Category:recipe.id_category,
       STEP: ([] as Array<{ RANK: number, ID: number | null, TYPE:string }>)
     }
-    step.forEach((value, key) => {
+    step.forEach((value, index) => {
       if(value.startsWith("S")){
         data.STEP.push({
-          RANK: key,
+          RANK: index,
           ID: parseInt(value.substring(1)),
           TYPE:"STEP",
         })
       }else if(value.startsWith("R")) {
         data.STEP.push({
-          RANK: key,
+          RANK: index,
           ID: parseInt(value.substring(1)),
           TYPE:"RECIPE",
         })
@@ -147,10 +149,29 @@ export class RecipeService {
                 new Allergen(ingredient.ALLERGEN.ID,ingredient.ALLERGEN.NAME,ingredient.ALLERGEN.ID_Category,ingredient.ALLERGEN.URL))
             }
             if(!ingredientName.has(newIngredient.name)){
-              console.log(ingredientName.has(newIngredient.name))
+
               ingredientName.add(newIngredient.name)
               ingredientArray.push(newIngredient)
 
+            }
+          }
+          for(let id of d.Recette){
+            for(let d of data){
+              if(id==d.ID_RECIPE){
+                for (let ingredient of d.INGREDIENT){
+                  let newIngredient:Ingredient
+                  if(ingredient.ALLERGEN.ID==null){
+                    newIngredient=new Ingredient(ingredient.ID,ingredient.NAME,ingredient.UNIT,ingredient.UNIT_PRICE,ingredient.ID_Category,ingredient.STOCK)
+                  }else {
+                    newIngredient=new Ingredient(ingredient.ID,ingredient.NAME,ingredient.UNIT,ingredient.UNIT_PRICE,ingredient.ID_Category,ingredient.STOCK,
+                      new Allergen(ingredient.ALLERGEN.ID,ingredient.ALLERGEN.NAME,ingredient.ALLERGEN.ID_Category,ingredient.ALLERGEN.URL))
+                  }
+                  if(!ingredientName.has(newIngredient.name)){
+                    ingredientName.add(newIngredient.name)
+                    ingredientArray.push(newIngredient)
+                  }
+                }
+              }
             }
           }
           res.push(new Etiquette(d.ID_RECIPE,d.NAME,d.AUTHOR,d.ID_Category,ingredientArray));
@@ -166,28 +187,36 @@ export class RecipeService {
     return new Promise<Recipe>((resolve, reject) => {
       recipeRequest.subscribe({
         next: (data) => {
-          let stepArray=new Map<number,Step>()
-          for(let d of data){
-            let ingredientArray=new Map<Ingredient,number>()
-            if(d.INGREDIENT[0].ID!=null) {
-              for (let ingredient of d.INGREDIENT) {
-                if (ingredient.ALLERGEN.ID == null) {
-                  ingredientArray.set(new Ingredient(ingredient.ID, ingredient.NAME, ingredient.UNIT, ingredient.UNIT_PRICE, ingredient.ID_Category, ingredient.STOCK), ingredient.QUANTITY)
-                } else {
-                  ingredientArray.set(new Ingredient(ingredient.ID, ingredient.NAME, ingredient.UNIT, ingredient.UNIT_PRICE, ingredient.ID_Category, ingredient.STOCK,
-                    new Allergen(ingredient.ALLERGEN.ID, ingredient.ALLERGEN.NAME, ingredient.ALLERGEN.ID_Category, ingredient.ALLERGEN.URL)), ingredient.QUANTITY)
-                }
-              }
-            }
-            stepArray.set(d.POSITION,new Step(d.ID_STEP,d.NAMES,d.DESCRIPTION,d.DURATION,ingredientArray))
-          }
-          resolve(new Recipe(data[0].ID_RECIPE,data[0].NAMER,data[0].NB_COUVERT,data[0].COUT_ASSAISONNEMENT,data[0].ISPERCENT,data[0].AUTHOR,data[0].ID_Category,stepArray))
-        },
+          resolve(this.createRecipeFromSQL(data))
+          },
         error: (e) => reject(e)
       })
-
-
     })
+  }
+
+
+  createRecipeFromSQL(recipeSQL:Array<any>):Recipe{
+    let stepArray=new Array<Stepable>()
+    for(let d of recipeSQL){
+      let ingredientArray=new Map<Ingredient,number>()
+      if(d.INGREDIENT && d.INGREDIENT[0].ID!=null) {
+        for (let ingredient of d.INGREDIENT) {
+          if (ingredient.ALLERGEN.ID == null) {
+            ingredientArray.set(new Ingredient(ingredient.ID, ingredient.NAME, ingredient.UNIT, ingredient.UNIT_PRICE, ingredient.ID_Category, ingredient.STOCK), ingredient.QUANTITY)
+          } else {
+            ingredientArray.set(new Ingredient(ingredient.ID, ingredient.NAME, ingredient.UNIT, ingredient.UNIT_PRICE, ingredient.ID_Category, ingredient.STOCK,
+              new Allergen(ingredient.ALLERGEN.ID, ingredient.ALLERGEN.NAME, ingredient.ALLERGEN.ID_Category, ingredient.ALLERGEN.URL)), ingredient.QUANTITY)
+          }
+        }
+        stepArray.push(new Step(d.ID_STEP,d.NAMES,d.DESCRIPTION,d.DURATION,ingredientArray));
+      }else if(d.RECIPE) {
+        stepArray.push(this.createRecipeFromSQL(d.RECIPE as Array<any>))
+      }else {
+        stepArray.push(new Step(d.ID_STEP,d.NAMES,d.DESCRIPTION,d.DURATION,ingredientArray));
+      }
+    }
+    return new Recipe(recipeSQL[0].ID_RECIPE,recipeSQL[0].NAMER,recipeSQL[0].NB_COUVERT,recipeSQL[0].COUT_ASSAISONNEMENT,recipeSQL[0].ISPERCENT,recipeSQL[0].AUTHOR,recipeSQL[0].ID_Category,stepArray)
+
 
   }
 }

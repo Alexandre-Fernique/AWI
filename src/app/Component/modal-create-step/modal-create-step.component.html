@@ -6,51 +6,55 @@
     </div>
     <form style="padding: 12px;" [formGroup]="form" (ngSubmit)="validate()">
       <div class="modal-body">
-        <div class="mb-3">
-          <input class="form-control" type="text" [ngClass]="getValidform('name')" formControlName="name" placeholder="Nom"/>
-          <div  class="invalid-feedback">
-            Entrez un nom d'étape
-          </div>
+        <div>
+          <mat-form-field appearance="outline">
+            <mat-label>Nom d'étape</mat-label>
+            <input matInput placeholder="Préparer le plan de travail" formControlName="name" required>
+            <mat-error >Entrez un nom d'étape</mat-error>
+          </mat-form-field>
         </div>
-        <div class="mb-3">
-          <textarea class="form-control" formControlName="description" placeholder="Description"></textarea>
 
+        <div>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Description</mat-label>
+            <textarea matInput formControlName="description"></textarea>
+          </mat-form-field>
         </div>
-        <div class="mb-3">
-          <div class="input-group" [ngClass]="getValidform('duration')">
-            <input class="form-control" type="number" formControlName="duration" [ngClass]="getValidform('duration')"  placeholder="Durée de l&#39;étape"/>
-            <span class="input-group-text">(en minute)</span>
-          </div>
-          <div  class="invalid-feedback">
-            Entrez une durée d'étape
-          </div>
+        <div >
+          <mat-form-field  appearance="outline" >
+            <mat-label>Durée de l'étape (en minute) </mat-label>
+            <input matInput placeholder="20" type="number" formControlName="duration" required>
+            <mat-error >Entrez un prix unitaire</mat-error>
+          </mat-form-field>
+
+
         </div>
 
         <div class="row mb-3" *ngFor="let item of liste">
           <div class="col">
-            <select class="form-select" formControlName="{{item}}ID" [ngClass]="getValidform(item+'ID')">
-              <option value="" disabled selected>Aucun</option>
-              <optgroup *ngFor="let category of i_Category" label="{{category.name}}">
-                <ng-container *ngFor="let item2 of ingredientDonne">
-                  <option *ngIf="category.id==item2.id_category" [value]="item2.id">{{item2.name}}</option>
-                </ng-container>
-              </optgroup>
-            </select>
-            <div  class="invalid-feedback">
-              Entrez un ingrédient
-            </div>
-          </div>
-          <div class="col">
-            <div class="input-group " [ngClass]="getValidform(item+'Q')">
-              <input class="form-control" formControlName="{{item}}Q" type="number" [ngClass]="getValidform(item+'Q')" placeholder="Quantité"/>
-              <span class="input-group-text" *ngIf="getUnit(item)!=''">({{getUnit(item)}})</span>
-            </div>
-            <div  class="invalid-feedback">
-              Entrez une quantité
-            </div>
+            <mat-form-field class="" appearance="outline">
+              <mat-label>Catégorie</mat-label>
+              <mat-select placeholder="Ingrédient" formControlName="{{item}}ID" required>
+                <mat-optgroup *ngFor="let category of i_Category" label="{{category.name}}">
+                  <ng-container *ngFor="let item2 of ingredientDonne">
+                    <mat-option *ngIf="category.id==item2.id_category" [value]="item2.id">{{item2.name}}</mat-option>
+                  </ng-container>
+                </mat-optgroup>
+              </mat-select>
+              <mat-error >Entrez un ingrédient</mat-error>
+            </mat-form-field>
 
           </div>
-          <div class="col-md-auto">
+          <div class="col">
+            <mat-form-field  appearance="outline" >
+              <mat-label>Quantité {{getUnit(item)?'('+getUnit(item)+')':''}}</mat-label>
+              <input matInput placeholder="20" type="number" formControlName="{{item}}Q" required>
+              <mat-error >Entrez une quantité</mat-error>
+            </mat-form-field>
+
+          </div>
+          <div class="col-md-auto mt-3">
             <button class="btn btn-outline-danger" (click)="deleteIngredient(item)" type="button">
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#dc3545">
                 <path d="M0 0h24v24H0z" fill="none"/>
@@ -70,7 +74,7 @@
         <button class="btn btn-light" data-bs-dismiss="modal" data-bs-toggle="modal" href="#creerIngredient"
                 type="button">Créer un ingrédient
         </button>
-        <button class="btn btn-primary" data-bs-toggle="modal" [disabled]="!form.valid"
+        <button class="btn btn-primary" data-bs-dismiss="modal" [disabled]="!form.valid"
                 type="submit">{{updateModal ? "Mettre à jour" : "Créer"}}</button>
       </div>
     </form>

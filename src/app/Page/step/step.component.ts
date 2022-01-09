@@ -7,6 +7,8 @@ import {HttpErrorResponse} from "@angular/common/http";
 import {AlertComponent} from "../../Component/alert/alert.component";
 import {MatDialog} from "@angular/material/dialog";
 import {ConfirmDialogComponent} from "../../Component/confirm-dialog/confirm-dialog.component";
+import {Ingredient} from "../../class/ingredient";
+import {IngredientService} from "../../Service/ingredient.service";
 
 
 
@@ -30,18 +32,21 @@ export class StepComponent implements AfterViewInit {
   finish: boolean=false;
   data:Step[]=[]
   steptoUpdate:Step|undefined;
+  listeIngredient:Array<Ingredient>;
 
 
-  constructor(private request: StepService,public view:ViewContainerRef,public dialogRef:MatDialog) {
+  constructor(private request: StepService,private requestIngre:IngredientService, public view:ViewContainerRef,public dialogRef:MatDialog) {
     this.data=request.getAllStep()
-    this.dataSource.data=request.getAllStep()
-    console.log(request.getAllStep())
+    this.listeIngredient =requestIngre.getAllIngredient()
   }
 
   buildtable(){
     this.dataSource.data=this.data
 
  }
+  newIngredient(event:Ingredient){
+    this.listeIngredient.push(event)
+  }
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
 

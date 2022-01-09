@@ -12,8 +12,9 @@ import {Category} from "../../../class/category";
 import {RecipeService} from "../../../Service/recipe.service";
 
 import {AlertComponent} from "../../../Component/alert/alert.component";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {Etiquette} from "../../../class/etiquette";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-creer-recette',
@@ -58,7 +59,7 @@ export class CreerRecetteComponent implements OnInit{
   });
   id:number|null
 
-  constructor(private route: ActivatedRoute,private http:IngredientService,private requestS:StepService,private cost:ConstantCostService,private requestR:RecipeService,public viewRef:ViewContainerRef) {
+  constructor(private route: ActivatedRoute,private http:IngredientService,private requestS:StepService,private cost:ConstantCostService,private requestR:RecipeService,public viewRef:ViewContainerRef,private router:Router) {
     this.ingredient=http.getAllIngredient();
     this.stepList=requestS.getAllStep();
     this.RCategory=requestR.getCategory()
@@ -106,6 +107,9 @@ export class CreerRecetteComponent implements OnInit{
   createIngredient(event:Ingredient) {
     this.ingredient.push(event);
   }
+  createStep(event:Step){
+    this.stepList.push(event)
+  }
 
   add(){
     this.listeStep.push(this.cpt)
@@ -121,13 +125,13 @@ export class CreerRecetteComponent implements OnInit{
     moveItemInArray(this.listeStep, event.previousIndex, event.currentIndex);
   }
   validate(){
-    let step=new Map<number,string>();
+    let step=new Array<string>();
     this.listeStep.forEach(((value, index) => {
-      step.set(index,this.form.get(value+"ID")?.value)
+      step[index]=this.form.get(value+"ID")?.value
 
     }))
     let r=new Recipe(0,this.form.get("name")?.value,this.form.get("nbTable")?.value,this.form.get("coutAssaisonement")?.value,this.form.get("typeAssaisonement")?.value,
-      this.form.get("author")?.value, this.form.get("category")?.value,new Map<number, Step>())
+      this.form.get("author")?.value, this.form.get("category")?.value,new Array<Step>())
     if(this.id==null){
       this.requestR.createRecipe(r,step).subscribe({
         next:(result)=>{
@@ -143,11 +147,16 @@ export class CreerRecetteComponent implements OnInit{
       r.id=this.id;
       this.requestR.updateRecipe(r,step).subscribe({
         next:()=>{
-          AlertComponent.alert("Recette "+r.name+" mis à jour","success",this.viewRef);
+          this.router.navigate(['/'])
+
         },
-        error:(err)=>{
+        error:(err:HttpErrorResponse)=>{
           console.log(err)
-          AlertComponent.alert("Erreur","danger",this.viewRef);
+          if (err.status==409){
+            AlertComponent.alert("Boucle infini de recette","danger",this.viewRef);
+          }
+          else
+            AlertComponent.alert("Erreur","danger",this.viewRef);
         }
       })
     }

@@ -23,7 +23,6 @@ export class AppComponent {
   constructor(private request:RecipeService,public view:ViewContainerRef,public dialogRef:MatDialog) {
     this.category=request.getCategory()
     this.etiquetteArray=request.getAllRecipe()
-    console.log(this.etiquetteArray)
     this.filtre.valueChanges.subscribe(value => {
       this.etiquetteArray=this.request.getAllRecipe(value);
     })

@@ -10,6 +10,7 @@ import {Ingredient} from "../../class/ingredient";
 export class TableComponent {
   @Input()ingredientMap:Map<Ingredient,number>=new Map<Ingredient, number>()
   @Input()nbTable:number|undefined;
+  @Input()displayStock=false;
   constructor() {
     if(this.nbTable==undefined){
       this.nbTable=1;

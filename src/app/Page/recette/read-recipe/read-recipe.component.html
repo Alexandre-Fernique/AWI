@@ -17,16 +17,18 @@
 
     </div>
   </div>
+  <mat-form-field appearance="outline">
+    <mat-label>Nombre de couvert</mat-label>
+    <input matInput placeholder="10" type="number" min="0"  [formControl]="nbCouvert" required>
+    <mat-error >Entrez un nom de couvert</mat-error>
+  </mat-form-field>
 
 
-  <div class="form-floating">
-    <input class="form-control" type="number" min="0" id="floatingInput3" [formControl]="nbCouvert" placeholder="Nombre de couvert"/>
-    <label for="floatingInput3">Nombre de couvert</label>
-  </div>
+
 
   <mat-stepper orientation="vertical" linear="false" #stepper>
-    <ng-container *ngFor="let stepable of recipe.step|keyvalue">
-      <mat-step *ngFor="let step of stepable.value.getStep()">
+    <ng-container *ngFor="let stepable of recipe.step">
+      <mat-step *ngFor="let step of stepable.getStep()">
         <ng-template matStepLabel>{{step.name}}</ng-template>
         <ng-template matStepperIcon="edit" let-index="index">
           {{index + 1}}
@@ -37,7 +39,7 @@
             <p><u>Durée:</u> {{step.getTime()}}</p>
           </div>
           <div class="col">
-            <app-table [ingredientMap]="step.ingredient" [nbTable]="nbCouvert.value"></app-table>
+            <app-table [ingredientMap]="step.ingredient" [nbTable]="nbCouvert.value" [displayStock]="true"></app-table>
           </div>
         </div>
 
@@ -69,11 +71,19 @@
       <label for="floatingInput1">Coeficient multiplicateur</label>
     </div>
   </div>
-  <mat-slide-toggle [formControl]="chargeCost">Calculer Coût Charge</mat-slide-toggle>
 
-  <button class="btn btn-primary" (click)="download()">Imprimé la recette</button>
-  <mat-slide-toggle [formControl]="printCost">{{printCost.value?"avec les coûts":"sans les coûts"}}</mat-slide-toggle>
-  <button class="btn btn-primary" (click)="enregistrer()">Enregistré la vente</button>
+  <div class="row mt-5 mb-5">
+    <div class="col">
+
+      <button class="btn btn-primary mx-3" (click)="download()">Imprimé la recette</button>
+      <mat-slide-toggle [formControl]="printCost">{{printCost.value?"avec les coûts":"sans les coûts"}}</mat-slide-toggle>
+      <mat-slide-toggle class="mx-3" [formControl]="chargeCost">Calculer avec les coûts de Charge</mat-slide-toggle>
+    </div>
+    <div class="col-auto">
+      <button class="btn btn-primary" (click)="enregistrer()">Enregistré la vente</button>
+    </div>
+  </div>
+
 </div>
 <app-modal-modify-constant (newData)="changeCost($event)" id="constant" class="modal fade" role="dialog" tabindex="-1"></app-modal-modify-constant>
 

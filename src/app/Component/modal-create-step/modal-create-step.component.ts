@@ -37,7 +37,7 @@ import {AlertComponent} from "../alert/alert.component";
 })
 export class ModalCreateStepComponent implements  OnChanges {
   @Input() ingredientDonne: Array<Ingredient>|undefined;
-  @Output() newStepEmiter: EventEmitter<Step> = new EventEmitter<Step>();
+  @Output() newStepEmiter = new EventEmitter<Step>();
   @Input() inputStep: Step | undefined;
   @Input() updateModal: boolean = false;
 

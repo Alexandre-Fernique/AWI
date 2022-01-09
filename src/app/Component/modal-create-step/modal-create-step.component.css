@@ -1,0 +1,9 @@
+.modal-dialog{
+  max-width: 600px;
+}
+.btn-outline-primary:hover svg{
+  fill: white;
+}
+.btn-outline-danger:hover svg{
+  fill: white;
+}
