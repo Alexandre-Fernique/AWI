@@ -65,8 +65,8 @@
       <app-table [nbTable]="this.recipe.nb_couvert" [ingredientMap]="this.recipe.getIngredient()"></app-table>
       <table class="table" >
         <thead>
-        <th>Catégorie</th>
-        <th>Résultat</th>
+        <th scope="col">Catégorie</th>
+        <th scope="col">Résultat</th>
         </thead>
         <tbody>
         <tr *ngIf="this.recipe.cout_assaisonnement!=0">

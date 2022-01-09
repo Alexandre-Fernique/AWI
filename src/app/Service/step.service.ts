@@ -3,7 +3,6 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Step} from "../class/step";
 import {Ingredient} from "../class/ingredient";
 import {Allergen} from "../class/allergen";
-import {Observable} from "rxjs";
 import {environment} from "../../environments/environment";
 
 @Injectable({
@@ -23,18 +22,12 @@ export class StepService {
       INGREDIENT: ([] as Array<{ ID: number | null, QUANTITY: number | null }>)
     }
     step.ingredient.forEach((value, key) => {
-      if (key instanceof Ingredient) {
-        data.INGREDIENT.push({
-          ID: key.id,
-          QUANTITY: value,
-        });
-      } else {
-        data.INGREDIENT.push({
-          ID: key,
-          QUANTITY: value,
-        });
 
-      }
+      data.INGREDIENT.push({
+        ID: key.id,
+        QUANTITY: value,
+      });
+
     })
     console.log(data);
     return this.http.post(environment.api+"/step/createStep", data, this.httpOptions);
@@ -49,18 +42,10 @@ export class StepService {
       INGREDIENT: ([] as Array<{ ID: number | null, QUANTITY: number | null }>)
     }
     step.ingredient.forEach((value, key) => {
-      if (key instanceof Ingredient) {
-        data.INGREDIENT.push({
-          ID: key.id,
-          QUANTITY: value,
-        });
-      } else {
-        data.INGREDIENT.push({
-          ID: key,
-          QUANTITY: value,
-        });
-
-      }
+      data.INGREDIENT.push({
+        ID: key.id,
+        QUANTITY: value,
+      });
     })
     return this.http.put(environment.api+"/step/updateStep", data, this.httpOptions);
 

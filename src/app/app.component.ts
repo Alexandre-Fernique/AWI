@@ -4,7 +4,6 @@ import {RecipeService} from "./Service/recipe.service";
 import {Category} from "./class/category";
 import {Etiquette} from "./class/etiquette";
 import {FormControl} from "@angular/forms";
-import {CdkDragDrop, moveItemInArray} from "@angular/cdk/drag-drop";
 import {AlertComponent} from "./Component/alert/alert.component";
 import {ConfirmDialogComponent} from "./Component/confirm-dialog/confirm-dialog.component";
 import {MatDialog} from "@angular/material/dialog";

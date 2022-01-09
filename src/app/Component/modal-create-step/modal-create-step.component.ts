@@ -111,7 +111,6 @@ export class ModalCreateStepComponent implements  OnChanges {
   validate() {
     let ingredient=new Map<Ingredient,number>()
     for (let item of this.liste){
-      //TODO CHerhcher les info de l'ingrédient
       ingredient.set(new Ingredient(this.form.get(item+"ID")?.value,"","",0,0) ,this.form.get(item+"Q")?.value as number)
     }
 

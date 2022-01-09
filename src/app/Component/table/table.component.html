@@ -11,7 +11,7 @@
 </thead>
 <tbody>
 <tr *ngFor="let ingredient of ingredientMap|keyvalue">
-  <th>{{ingredient.key.name}}</th>
+  <th scope="row">{{ingredient.key.name}}</th>
   <td>{{convertNumber(ingredient.value*this.nbTable!,3)}} {{ingredient.key.unit}}</td>
   <td>{{ingredient.key.unit_price}}€ {{ingredient.key.unit}}</td>
   <td [colSpan]="ingredient.key.allergen!=undefined?'1':'2'">
@@ -21,7 +21,7 @@
   <td *ngIf="displayStock" [ngClass]="ingredient.key.stock<=convertNumber(ingredient.value*this.nbTable!,3)?'danger':''">{{convertNumber(ingredient.key.stock*1,3)}}</td>
 </tr>
 <tr>
-  <th colspan="3">Total</th>
+  <th scope="row" colspan="3">Total</th>
   <td>{{convertNumber(getPrice()*this.nbTable!,2)}} €</td>
 
   <td  class='icon-tableau'>

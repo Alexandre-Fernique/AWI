@@ -156,9 +156,9 @@ export class RecipeService {
             }
           }
           for(let id of d.Recette){
-            for(let d of data){
-              if(id==d.ID_RECIPE){
-                for (let ingredient of d.INGREDIENT){
+            for(let ligne of data){
+              if(id==ligne.ID_RECIPE){
+                for (let ingredient of ligne.INGREDIENT){
                   let newIngredient:Ingredient
                   if(ingredient.ALLERGEN.ID==null){
                     newIngredient=new Ingredient(ingredient.ID,ingredient.NAME,ingredient.UNIT,ingredient.UNIT_PRICE,ingredient.ID_Category,ingredient.STOCK)

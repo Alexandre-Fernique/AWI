@@ -135,7 +135,7 @@ export class IngredientService {
     return this.http.post(environment.api+"/category/deleteCategory/I_Category",data,this.httpOptions);
   }
   updateStock(value :Map<Ingredient,number>,nbCouvert:number){
-    console.log(value)
+
     let array=new Array<{ID:number,QUANTITY:number}>()
     value.forEach(((value1, key) => {
       array.push({

@@ -70,7 +70,7 @@ export class ModalCreateIngredientComponent implements  OnChanges {
       }
     })
     var ingredient=new Ingredient(0,this.form.get("name")?.value,this.form.get("unit")?.value,this.form.get("unit_price")?.value,this.form.get("id")?.value,this.form.get("stock")?.value,allergenValue);
-    console.log(ingredient);
+
     if(!this.updateModal){
       this.requestI.createIngredient(ingredient).subscribe({
         next: (res) => {

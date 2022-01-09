@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
+import {Component, OnInit, ViewContainerRef} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {Recipe} from "../../../class/recipe";
 import {RecipeService} from "../../../Service/recipe.service";
@@ -70,7 +70,7 @@ export class ReadRecipeComponent implements OnInit {
         this.nbCouvert.setValue(this.recipe.nb_couvert)
         this.coutAssaisnment.setValue(this.recipe.cout_assaisonnement)
         this.typeAssaisonement.setValue(this.recipe.coutAssaisonnementIsPercent)
-        console.log(this.recipe)
+
       })
     }
   }
@@ -79,6 +79,7 @@ export class ReadRecipeComponent implements OnInit {
       AlertComponent.alert("Vente enrgistré","success",this.view)
       this.ingredientRequest.updateStock(this.recipe?.getIngredient(),this.recipe?.nb_couvert).subscribe({
         error:(err) => {
+          console.log(err)
           AlertComponent.alert("Problème Back","danger",this.view)
         },
         complete:()=>{

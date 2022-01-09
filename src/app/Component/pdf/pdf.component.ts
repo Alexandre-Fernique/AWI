@@ -14,7 +14,6 @@ export class PdfComponent  {
   @Input()marge:number=0
   @Input()impresionCout:boolean=false
 
-  constructor() { }
   convertNumber(item:number,decimal:number){
 
     return Number(item.toFixed(decimal))
